@@ -108,15 +108,56 @@ const loginForm = document.getElementById("login-form");
 const loginInput = loginForm.querySelector("input");
 const loginButton = loginForm.querySelector("button");
 
+const link = document.querySelector("a");
+const greeting = document.querySelector("#greeting");
+
+const HIDDEN_CLASSNAME = "hidden";
+const USERNAME_KEY = "username";
+
 function onLoginBtnClick() {
     // console.log("hello " + loginInput.value);
     // console.log("click!!");
-    const userName = loginInput.value;
-    if(userName === "") {
+    const username = loginInput.value;
+    if(username === "") {
         alert("Please write your name.");
-    } else if (userName.length > 15) {
+    } else if (username.length > 15) {
         alert("Your name is too long.");
     }
 }
 
-loginButton.addEventListener("click", onLoginBtnClick);
+// loginButton.addEventListener("click", onLoginBtnClick);
+
+function onLoginSubmit(e) {
+    e.preventDefault();
+    loginForm.classList.add(HIDDEN_CLASSNAME);
+    const username = loginInput.value;
+    localStorage.setItem("username", username);
+    paintGreetings();
+}
+
+function paintGreetings() {
+    const username = localStorage.getItem(USERNAME_KEY);
+    greeting.innerText = `Hello! ${username}`;
+    greeting.classList.remove(HIDDEN_CLASSNAME);
+}
+
+const savedUsername = localStorage.getItem(USERNAME_KEY);
+
+
+if(savedUsername === null) {
+    // show the form
+    loginForm.classList.remove(HIDDEN_CLASSNAME);
+    loginForm.addEventListener("submit", onLoginSubmit);
+} else {
+    // show the greeting
+    paintGreetings();
+}
+
+// function handleLinkClick(e) {
+//     e.preventDefault();
+//     alert("Click!");
+//     console.log(e);
+// }
+
+// link.addEventListener("click", handleLinkClick);
+

@@ -11,3 +11,6 @@ h1 {
     color: tomato;
 } */
 
+.hidden {
+    display: none;
+}
